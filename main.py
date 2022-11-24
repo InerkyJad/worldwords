@@ -30,16 +30,32 @@ def list_files(path):
 
 
 """
-    Read all files within ./originals/
+    Populate the kill_list
+
+lettters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+kill_list = []
+
+for file in list_files("./originals"):
+    if file.startswith("cn") or file.startswith("ko") or file.startswith("ja") or file.startswith("bn") or file.startswith("el") or file.startswith("hi") or file.startswith("iw") or file.startswith("ka") or file.startswith("iw") or file.startswith("th") or file.startswith("ar"):
+        words = read_json("./originals/" + file)
+        print("Processing " + file)
+        for i, word in enumerate(words):
+            if word[0] in lettters or word[-1] in lettters:
+                kill_list.append(i)
+
+kill_list = list(set(kill_list))
+kill_list.sort(reverse=True)
+save_file("./kill_list.txt", str(kill_list))
 """
 
+
+
+"""
+    Kill words
 kill_list = eval(read_file("./kill_list.txt"))
 kill_list = list(set(kill_list))
 kill_list.sort()
 kill_list.reverse()
-
-
-
 
 for file in list_files('./originals/'):
     file_path = './originals/' + file
@@ -51,6 +67,12 @@ for file in list_files('./originals/'):
         del words[word]
 
     save_json_file("./native/" + file, words)
+"""
+
+
+
+
+
 
 
 
